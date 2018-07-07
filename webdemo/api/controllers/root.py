@@ -7,7 +7,6 @@ from webdemo.api import expose
 
 class RootController(rest.RestController):
     v1 = v1_controller.V1Controller()
-
     @expose.expose(wtypes.text)
 #    @wsme_pecan.wsexpose(wtypes.text)
     def get(self):

@@ -1,14 +1,15 @@
 import pecan
 from pecan import request
-from wsme import types as wtypes
 from pecan import rest
+from wsme import types as wtypes
+
 from webdemo.api import expose
 
 class User(wtypes.Base):
     name = wtypes.text
     age = int
     id = wtypes.text
-
+    email = wtypes.text
 class Users(wtypes.Base):
     users = [User]
 
@@ -29,17 +30,18 @@ class UsersController(rest.RestController):
 
     @expose.expose(Users)
     def get(self):
-        user_info_list = [
-            {
-                'name': 'Alice',
-                'age': 30,
-            },
-            {
-                'name': 'Bob',
-                'age': 40,
-            }
-        ]
-        users_list = [User(**user_info) for user_info in user_info_list]
+        print("will show the list 1")
+        db_conn = request.db_conn
+        print("will show the list 2")
+        users = db_conn.list_users()
+        users_list = []
+        for user in users:
+            u = User()
+            u.id = user.id
+            u.user_id = user.user_id
+            u.name = user.name
+            u.email = user.email
+            users_list.append(u)
         return Users(users=users_list)
     @expose.expose(None, body=User, status_code=201)
     def post(self, user):

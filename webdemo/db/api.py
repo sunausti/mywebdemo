@@ -14,8 +14,8 @@ def get_engine():
     if _ENGINE is not None:
         return _ENGINE
 
-    _ENGINE = create_engine('sqlite://')
-    db_models.Base.metadata.create_all(_ENGINE)
+    _ENGINE = create_engine('sqlite:///../webdemo.db')
+#   db_models.Base.metadata.create_all(_ENGINE)
     return _ENGINE
 
 
